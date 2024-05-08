@@ -1,0 +1,27 @@
+{
+  "name": "dbstreamlistener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run lint",
+    "lint": "eslint .",
+    "lint:autofix": "eslint . --fix",
+    "prepush": "npm run lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.3.2"
+  },
+   "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-vue": "^7.0.0-alpha.8"
+  }
+}
