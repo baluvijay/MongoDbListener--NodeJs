@@ -12,7 +12,7 @@ const gameAggregatesChangeStream = (jobMetaData, dbStreamClient, options = {}) =
   const defaultOptions = {
     processName: _get(jobMetaData, ['processName'], '[Anonymous]'),
     collectionName: GameAggregate.collection.name,
-    jobId: jobMetaData.jobId 
+    jobId: jobMetaData.jobId ,
     debugStream: false,
     operationType: [
       'update',
