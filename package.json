@@ -15,9 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "mongoose": "^8.3.2"
+    "lodash": "^4.17.21",
+    "merge2": "^1.4.1",
+    "moment-timezone": "^0.5.45",
+    "mongoose": "^8.3.2",
+    "readable-stream": "^4.5.2",
+    "set-interval-async": "^3.0.3"
   },
-   "devDependencies": {
+  "devDependencies": {
     "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",

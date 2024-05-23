@@ -4,9 +4,9 @@ const config = require('./config');
 const connect = async (appname) => {
   appname = appname || '';
   let uri = config.db;
-  if (process.env.MONOG_USER) {
+  if (process.env.MONGO_USER) {
     if (uri.includes('mongodb+srv://')) {
-      uri = uri.replace('mongodb+srv://', `mongodb+srv://${process.env.MONOG_USER}:${process.env.MONGO_PASSWORD}@`);
+      uri = uri.replace('mongodb+srv://', `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@`);
     } else {
       uri = uri.replace('mongodb://', `mongodb://${process.env.MONOG_USER}:${process.env.MONGO_PASSWORD}@`);
     }

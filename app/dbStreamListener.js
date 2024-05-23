@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const mongooseConfig = require('../app/config/mongoose');
-const { runJob } = require('../app/aktivoAdminBot/aktivoAdminBot');
+const { runJob } = require('./index');
 
 const LOGGER_NAME = '[DbStreamListener]';
 

@@ -4,7 +4,7 @@ const {
 } = require('lodash');
 
 const { model } = require('../../models/models');
-const { dbEventsStream } = require('./common/dbEventsStream');
+const { dbEventsStream } = require('../../commons/dbEventsStream');
 
 const GameAggregate = model('GameAggregate');
 
@@ -12,7 +12,7 @@ const gameAggregatesChangeStream = (jobMetaData, dbStreamClient, options = {}) =
   const defaultOptions = {
     processName: _get(jobMetaData, ['processName'], '[Anonymous]'),
     collectionName: GameAggregate.collection.name,
-    jobId: jobMetaData.jobId || newOid(),
+    jobId: jobMetaData.jobId 
     debugStream: false,
     operationType: [
       'update',

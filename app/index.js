@@ -1,17 +1,19 @@
 const merge2 = require('merge2');
 const { get: _get } = require('lodash');
 const mongoose = require('mongoose');
-const { createBatchRequestStream } = require('../lib/utils/streams/sinkStreams/batchRequestStream');
-const { getStreamDbClient } = require('../streams/db/streamDbClient');
+const { createBatchRequestStream } = require('../app/streams/batchRequestStream');
 
-const {
-  gameAggregatesProcessor,
-} = require('../lib/utils/streams/sinkStreams/batchRequestStream/batchEndpoints');
+const { getStreamDbClient } = require('./streams/db/streamDbClient');
+const { model } = require('./models/models');
 
-const { gameAggregatesChangeStream } = require('../streams/sourcesStreams/gameAggregatesChangeStream');
+
+
+const { gameAggregatesChangeStream } = require('../app/streams/sourcesStreams/gameAggregatesChangeStream');
 
 const { Types: { ObjectId } } = mongoose;
-
+const {
+  gameAggregatesProcessor,
+} = require('../app/streams/sourcesStreams/gameAggregatesChangeStream');
 
 const processJobGameAggregatesTrigger = async (jobMetaData, dbStreamClient) => {
   const gameAggregatesLogStream = await gameAggregatesChangeStream(jobMetaData, dbStreamClient, {});
@@ -47,6 +49,8 @@ const runJob = async () => {
     jobId,
   };
   console.log('Job running ');
+
+  // instead of adding it here make it addable by creating an instance of the class
   const adminBotJobs = [
     processJobGameAggregatesTrigger(jobMetaData, dbStreamClient),
   ];
