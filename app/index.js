@@ -1,5 +1,5 @@
 const merge2 = require('merge2');
-const { get: _get } = require('lodash');
+const { get: _get,set:_set } = require('lodash');
 const mongoose = require('mongoose');
 const { createBatchRequestStream } = require('../app/streams/batchRequestStream');
 
@@ -50,13 +50,12 @@ const runJob = async () => {
   const jobMetaData = {
     processName,
     jobId,
-    subProcessName:"acceptItFromTerminal"
   };
   console.log('Job running ');
 
   // instead of adding it here make it addable by creating an instance of the class
   const adminBotJobs = [
-    processSampleModelTriggers(jobMetaData, dbStreamClient,SampleModel,["user","totalPoints"]),
+    processSampleModelTriggers(jobMetaData, dbStreamClient,SampleModel,["user","totalPoints"],_set(jobMetaData,'subProcessName',"SampleModelLogAggregator")),
   ];
   await Promise.all(adminBotJobs);
   console.log('Job Completed ');
