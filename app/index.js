@@ -13,7 +13,7 @@ const { gameAggregatesChangeStream } = require('../app/streams/sourcesStreams/ga
 const { Types: { ObjectId } } = mongoose;
 const {
   gameAggregatesProcessor,
-} = require('../app/streams/sourcesStreams/gameAggregatesChangeStream');
+} = require('../app/streams/batchStreams/gameAggregatesProcessor');
 
 const processJobGameAggregatesTrigger = async (jobMetaData, dbStreamClient) => {
   const gameAggregatesLogStream = await gameAggregatesChangeStream(jobMetaData, dbStreamClient, {});

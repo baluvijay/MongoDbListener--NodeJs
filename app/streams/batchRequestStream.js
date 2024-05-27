@@ -176,6 +176,8 @@ const createStream = (options) => {
 const validateOptions = (streamInitialOptions) => {
   const curatedStreamOptions = _cloneDeep(streamInitialOptions);
 
+  console.log(curatedStreamOptions);
+
   if (_isEmpty(_get(curatedStreamOptions, ['processName']))) {
     throw new Error('mandatory: processName');
   }
