@@ -8,19 +8,17 @@ const { dbEventsStream } = require('../../commons/dbEventsStream');
 
 
 
-const modelChangeStream = (jobMetaData, dbStreamClient, options = {},collectionModel,keys) => {
-
-  const fields={
+const modelChangeStream = (jobMetaData, dbStreamClient, options = {}, collectionModel, keys) => {
+  const fields = {
     'data.streamSource': '$ns.coll',
   };
   keys.forEach(key => {
     fields[`data.${key}`] = `$fullDocument.${key}`;
   });
- console.log(fields);
   const defaultOptions = {
     processName: _get(jobMetaData, ['processName'], '[Anonymous]'),
     collectionName: collectionModel.collection.name,
-    jobId: jobMetaData.jobId ,
+    jobId: jobMetaData.jobId,
     debugStream: false,
     operationType: [
       'update',

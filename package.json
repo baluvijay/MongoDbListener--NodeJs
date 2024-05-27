@@ -18,6 +18,7 @@
     "lodash": "^4.17.21",
     "merge2": "^1.4.1",
     "moment-timezone": "^0.5.45",
+    "mongodb": "^6.6.2",
     "mongoose": "^8.3.2",
     "readable-stream": "^4.5.2",
     "set-interval-async": "^3.0.3"

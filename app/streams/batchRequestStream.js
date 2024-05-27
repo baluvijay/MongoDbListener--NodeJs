@@ -74,8 +74,6 @@ const placeHolderDoNothingButDelayRequestProcessor = async (options, batch, requ
  *          for example: `{objectMode: true}`.
  */
 const createStream = (options) => {
-  console.log(`optionsCheck`);
-  console.log(options);
   let writeStream;
 
   const myPromise = new Promise((resolve, reject) => {
@@ -121,7 +119,7 @@ const createStream = (options) => {
           liveRequests += 1;
           lastPushTime = dataTimeStamp;
           batchId = (batchId + 1) % Number.MAX_SAFE_INTEGER;
-          await options.request({ logPrefix, batchId }, batch.splice(0, batch.length), requestCompleted,_get(options,'collectionModel'));
+          await options.request({ logPrefix, batchId }, batch.splice(0, batch.length), requestCompleted, _get(options, 'collectionModel'));
           console.log(`${logPrefix} *** Data was sent by timeoutHandler`);
         }
       }
@@ -135,7 +133,7 @@ const createStream = (options) => {
         liveRequests += 1;
         lastPushTime = dataTimeStamp;
         batchId = (batchId + 1) % Number.MAX_SAFE_INTEGER;
-        options.request({ logPrefix, batchId }, batch.splice(0, batchSize), requestCompleted,_get(options,'collectionModel'));
+        options.request({ logPrefix, batchId }, batch.splice(0, batchSize), requestCompleted, _get(options, 'collectionModel'));
         // batch = [];
 
         if (liveRequests >= maxLiveRequests) {
@@ -159,7 +157,7 @@ const createStream = (options) => {
       }
       if (batch.length > 0) {
         batchId = (batchId + 1) % Number.MAX_SAFE_INTEGER;
-        await options.request({ logPrefix, batchId }, batch, requestCompleted,_get(options,'collectionModel'));
+        await options.request({ logPrefix, batchId }, batch, requestCompleted, _get(options, 'collectionModel'));
       }
       console.log(`${logPrefix}: Finish completed`);
       resolve();
@@ -178,7 +176,6 @@ const createStream = (options) => {
 const validateOptions = (streamInitialOptions) => {
   const curatedStreamOptions = _cloneDeep(streamInitialOptions);
 
-  console.log(curatedStreamOptions);
 
   if (_isEmpty(_get(curatedStreamOptions, ['processName']))) {
     throw new Error('mandatory: processName');
@@ -218,9 +215,7 @@ const validateOptions = (streamInitialOptions) => {
 };
 
 const createBatchRequestStream = (dbEventsStreamInitialOptions) => {
-  console.log(dbEventsStreamInitialOptions);
   const finalOptions = validateOptions(dbEventsStreamInitialOptions);
-  console.log(finalOptions);
   const { promise, writeStream } = createStream(finalOptions);
   const batchRequestStream = new PassThrough(finalOptions.streamOptions);
   batchRequestStream.pipe(writeStream);
