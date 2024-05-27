@@ -11,18 +11,16 @@ Versatile: Can be run as a standalone service. <br>
 Custom Processing: Allows for custom processing of each database change event. <br>
 
 How to run the project: <br>
-Add these variables in the .env file
+Step1 : Create and add these variables in the .env file
 ```
 ENV=development
 DB_CONNECTION_URL=mongodb://localhost:27017/<database_name> //give the db url
 ```
-
 If database is password protected, either add it in the url , or add it as a seperate env variable ( check config code for more info)
 
-Then run the script using the command `node runScript.js dbStreamListener` 
+Step2: Run the script using the command `node runScript.js dbStreamListener` 
 
 Now go to the database, and insert a document into samplemodels collection, and you will see the information coming in the logs.
-
 Modify the sample model according to your usecase.
 
 
