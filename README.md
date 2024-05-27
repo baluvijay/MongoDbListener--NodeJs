@@ -1,5 +1,5 @@
-# dbStreamListener
-This is a Node.js application designed to listen to MongoDB database streams and capture operations made on a specific collection. It processes these operations separately, offering a high-performance solution for monitoring and reacting to database changes in real-time. This tool is ideal for scenarios where you need to watch a particular collection and take actions depending on the operations done on it.
+# MongoDbStreamListener
+This is a Node.js application designed to listen to MongoDB database events and capture operations made on a specific collection. It processes these operations separately, offering a high-performance solution for monitoring and reacting to database changes in real-time. This tool is ideal for scenarios where you need to watch a particular collection and take actions depending on the operations done on it.
 It can be run as a seperate service in a cluster.
 
 Features
