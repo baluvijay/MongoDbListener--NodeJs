@@ -28,6 +28,8 @@ In this project,we are only logging the data coming in the dataReceiver.js file.
 If you want to change the model, replace sampleModel collection with the new model and make the changes in the dataAdder.js collection.
 You can also add multiple models and push those info into the array to make it work.
 
+Do raise an issue, if you run into any trouble when using this
+
 
 
 
