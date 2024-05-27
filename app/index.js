@@ -5,30 +5,33 @@ const { createBatchRequestStream } = require('../app/streams/batchRequestStream'
 
 const { getStreamDbClient } = require('./streams/db/streamDbClient');
 const { model } = require('./models/models');
+const SampleModel = model('SampleModel');
 
 
 
-const { gameAggregatesChangeStream } = require('../app/streams/sourcesStreams/gameAggregatesChangeStream');
+const { modelChangeStream } = require('./streams/sourcesStreams/modelChangeStream');
 
 const { Types: { ObjectId } } = mongoose;
 const {
-  gameAggregatesProcessor,
-} = require('../app/streams/batchStreams/gameAggregatesProcessor');
+  dataProcessor,
+} = require('./streams/batchStreams/dataProcessor');
 
-const processJobGameAggregatesTrigger = async (jobMetaData, dbStreamClient) => {
-  const gameAggregatesLogStream = await gameAggregatesChangeStream(jobMetaData, dbStreamClient, {});
+const processSampleModelTriggers = async (jobMetaData, dbStreamClient,collectionModel,keys) => {
+  const modelLogStream = await modelChangeStream(jobMetaData, dbStreamClient, {},collectionModel,keys);
   const sourceStreamMembersHub = merge2({ end: false, objectMode: true });
 
   const batchRequesGameAggregatesLogStream = createBatchRequestStream({
     processName: _get(jobMetaData, ['processName']),
-    subProcessName: 'batchStreamGameAggregatesLog',
+    subProcessName:_get(jobMetaData, ['subProcessName']),
     jobId: _get(jobMetaData, ['jobId'], new ObjectId()),
     batchSize: 100,
     maxLiveRequests: 1,
     maxWaitTime: 100,
-    request: gameAggregatesProcessor,
+    request: dataProcessor,
+    collectionModel,
+    keys
   });
-  sourceStreamMembersHub.add([gameAggregatesLogStream.input]);
+  sourceStreamMembersHub.add([modelLogStream.input]);
   sourceStreamMembersHub.pipe(batchRequesGameAggregatesLogStream.input);
 
   return new Promise(() => {});
@@ -47,12 +50,13 @@ const runJob = async () => {
   const jobMetaData = {
     processName,
     jobId,
+    subProcessName:"acceptItFromTerminal"
   };
   console.log('Job running ');
 
   // instead of adding it here make it addable by creating an instance of the class
   const adminBotJobs = [
-    processJobGameAggregatesTrigger(jobMetaData, dbStreamClient),
+    processSampleModelTriggers(jobMetaData, dbStreamClient,SampleModel,["user","totalPoints"]),
   ];
   await Promise.all(adminBotJobs);
   console.log('Job Completed ');

@@ -14,7 +14,7 @@ const {
 const { model } = require('../models/models');
 const { newOid } = require('../commons/string');
 
-const Variable = model('Variable');
+const Tracker = model('Tracker');
 
 
 const validateOptions = (dbEventsStreamInitialOptions) => {
@@ -113,7 +113,7 @@ const dbEventsStream = async (jobMetaData, dbStreamClient, dbEventsStreamInitial
     } = dbEventsStreamOptions;
 
     if (rememberMe) {
-      const lastMongoMemberEvent = await Variable.findOne({ varName: eventTrackerVarName });
+      const lastMongoMemberEvent = await Tracker.findOne({ varName: eventTrackerVarName });
       resumeAfterEventId = _get(lastMongoMemberEvent, ['varValue', 'resumeAfterEventId']);
     }
 
@@ -149,7 +149,7 @@ const dbEventsStream = async (jobMetaData, dbStreamClient, dbEventsStreamInitial
         if (
           !_isEmpty(currentResumeAfterEventId)
           && currentResumeAfterEventId !== resumeAfterEventId) {
-          await Variable.updateOne({
+          await Tracker.updateOne({
             varName: eventTrackerVarName,
           }, {
             $set: { varValue: { createdAt: new Date(), resumeAfterEventId: currentResumeAfterEventId } },
@@ -199,8 +199,8 @@ const dbEventsStream = async (jobMetaData, dbStreamClient, dbEventsStreamInitial
     };
 
     const deleteAndRestartHandler = async () => {
-      await Variable.deleteOne({ varName: eventTrackerVarName });
-      console.log(`Delete variable document varName=${eventTrackerVarName} resume point is not longer in the oplog.`);
+      await Tracker.deleteOne({ varName: eventTrackerVarName });
+      console.log(`Delete Tracker document varName=${eventTrackerVarName} resume point is not longer in the oplog.`);
       changeStream = collection.watch(watchPipeline, { fullDocument: 'updateLookup' });
       return feedProcessor(changeStream, pass);
     };

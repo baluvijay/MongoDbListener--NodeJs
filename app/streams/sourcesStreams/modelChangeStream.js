@@ -3,15 +3,23 @@ const {
   get: _get,
 } = require('lodash');
 
-const { model } = require('../../models/models');
+
 const { dbEventsStream } = require('../../commons/dbEventsStream');
 
-const GameAggregate = model('GameAggregate');
 
-const gameAggregatesChangeStream = (jobMetaData, dbStreamClient, options = {}) => {
+
+const modelChangeStream = (jobMetaData, dbStreamClient, options = {},collectionModel,keys) => {
+
+  const fields={
+    'data.streamSource': '$ns.coll',
+  };
+  keys.forEach(key => {
+    fields[`data.${key}`] = `$fullDocument.${key}`;
+  });
+ console.log(fields);
   const defaultOptions = {
     processName: _get(jobMetaData, ['processName'], '[Anonymous]'),
-    collectionName: GameAggregate.collection.name,
+    collectionName: collectionModel.collection.name,
     jobId: jobMetaData.jobId ,
     debugStream: false,
     operationType: [
@@ -20,14 +28,7 @@ const gameAggregatesChangeStream = (jobMetaData, dbStreamClient, options = {}) =
       'replace',
     ],
     pipeline: [{
-      $addFields: {
-        'data.streamSource': '$ns.coll',
-        'data._id': '$fullDocument._id',
-        'data.gameId': '$fullDocument.gameId',
-        'data.companyId': '$fullDocument.companyId',
-        'data.user': '$fullDocument.user',
-        'data.totalPoints': '$fullDocument.totalPoints',
-      },
+      $addFields: fields,
     }],
     highWaterMark: 4,
     autoStart: true,
@@ -44,5 +45,5 @@ const gameAggregatesChangeStream = (jobMetaData, dbStreamClient, options = {}) =
 };
 
 module.exports = {
-  gameAggregatesChangeStream,
+  modelChangeStream,
 };

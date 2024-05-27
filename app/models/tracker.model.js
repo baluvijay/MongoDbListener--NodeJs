@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const VariableSchema = new Schema({
+const TrackerSchema = new Schema({
   varName: { type: String, unique: true },
   varType: { type: String, required: false },
   varValue: Schema.Types.Mixed,
@@ -10,5 +10,5 @@ const VariableSchema = new Schema({
   timestamps: true,
 });
 
-module.exports = mongoose.model('Variable', VariableSchema);
+module.exports = mongoose.model('Tracker', TrackerSchema);
 
